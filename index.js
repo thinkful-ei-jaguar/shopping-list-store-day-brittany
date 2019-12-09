@@ -26,6 +26,9 @@ const generateItemElement = function (item) {
         <button class='shopping-item-delete js-item-delete'>
           <span class='button-label'>delete</span>
         </button>
+        <button class='shopping-item-rename js-item-rename'>
+          <span class='button-label'>rename</span>
+        </button>
       </div>
     </li>`;
 };
@@ -88,6 +91,20 @@ const handleItemCheckClicked = function () {
     render();
   });
 };
+
+const renameItem = function (id) {
+  const foundItem = store.items.find(item => item.id === id);
+  let newName = prompt('What would you like to rename this item?', `${foundItem.name}`);
+  foundItem.name = newName;
+}
+
+const handleItemRenameClicked = function () {
+  $('.js-shopping-list').on('click', '.js-item-rename', e => {
+    const id = getItemIdFromElement(e.currentTarget);
+    renameItem(id);
+    render();
+  })
+}
 
 const getItemIdFromElement = function (item) {
   return $(item)
@@ -160,6 +177,7 @@ const handleShoppingList = function () {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleFilterClick();
+  handleItemRenameClicked();
 };
 
 // when the page loads, call `handleShoppingList`
